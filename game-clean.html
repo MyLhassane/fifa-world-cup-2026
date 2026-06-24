@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>FIFA World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* === RESET & VARIABLES === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #c9a84c;
+      --pink: #e84393;
+      --blue: #5dade2;
+      --green: #2ecc71;
+      --circle: min(29vw, 125px);
+      --gap: min(.7vw, 14px);
+      --card: min(28vw, 120px);
+    }
+
+    /* === BASE === */
+    html, body {
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      font-family: 'Oswald', 'Inter', sans-serif;
+      background: #1a1000;
+      color: #333;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* === WRAPPER === */
+    .wrapper {
+      width: 100%;
+      max-width: 480px;
+      height: 100dvh;
+      background-image: url('bg.png');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* === HEADER === */
+    .header {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+      background-image: url('header/header-bg.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .header-img {
+      height: min(18vw, 80px);
+      width: auto;
+      object-fit: contain;
+    }
+
+    .header-left, .header-right {
+      height: min(34vw, 150px);
+      flex: 1;
+      object-fit: cover;
+    }
+
+    .header-center {
+      height: min(18vw, 80px);
+      flex: 1.2;
+    }
+
+    /* === GAME CONTENT === */
+    .game-content {
+      position: relative;
+      width: 100%;
+      top: 0;
+      flex: 1;
+      padding: 0 5vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    /* === HINTS GRID === */
+    .hints-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      width: 100%;
+      top: 0;
+    }
+
+    .hint-row {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hint-cell {
+      position: relative;
+      width: var(--circle);
+      height: var(--circle);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Overlap circles */
+    .hint-row .hint-cell:nth-child(2) {
+      margin-left: calc(var(--circle) * -0.1);
+      margin-right: calc(var(--circle) * -0.1);
+      z-index: 1;
+    }
+
+    .hint-cell .hint-border {
+      position: absolute;
+      inset: 0;
+      border-radius: 100%;
+    }
+
+    .hint-cell .hint-inner {
+      position: relative;
+      z-index: 1;
+      width: 85%;
+      height: 85%;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 6% 4% 12%;
+    }
+
+    .hint-cell .hint-icon {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Player info inside circle */
+    .player-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 250%;
+      height: 250%;
+      gap: 2%;
+    }
+
+    .player-info img {
+      width: 55%;
+      height: 55%;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+      border-radius: 0 0 30% 30%;
+      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    }
+
+    .player-info .player-lastname {
+      font-size: clamp(7px, 2.4vw, 11.5px);
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      line-height: 1;
+      letter-spacing: 0.3px;
+    }
+
+    .player-info .player-firstname {
+      font-size: clamp(6px, 2.1vw, 7.5px);
+      font-weight: 400;
+      color: #fff;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      line-height: 1;
+      letter-spacing: 0.2px;
+    }
+
+    /* === ROW BORDER COLORS (SVG DASHED) === */
+    .row-pink .hint-border {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='rgb(236 22 98)' stroke-width='10' stroke-dasharray='30%2c 7' stroke-dashoffset='10' stroke-linecap='butt'/%3e%3c/svg%3e");
+    }
+
+    .row-blue .hint-border {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='rgb(134 181 189)' stroke-width='10' stroke-dasharray='30%2c 7' stroke-dashoffset='10' stroke-linecap='butt'/%3e%3c/svg%3e");
+    }
+
+    .row-green .hint-border {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='rgb(101 198 123)' stroke-width='10' stroke-dasharray='30%2c 7' stroke-dashoffset='10' stroke-linecap='butt'/%3e%3c/svg%3e");
+    }
+
+    /* === INNER BACKGROUND COLORS === */
+    .hint-green-bg { background: #27ae60; }
+    .hint-red-bg { background: #c0392b; }
+    .hint-dark-bg { background: rgba(40,30,15,0.85); }
+    .hint-blue-bg { background: linear-gradient(180deg, #75aadb 0%, #5b8ec2 100%); }
+    .hint-navy-bg { background: linear-gradient(180deg, #1a3a5c 0%, #0d1f33 100%); }
+    .hint-gold-bg { background: linear-gradient(180deg, #f1c40f 0%, #d4a017 100%); }
+    .hint-royal-bg { background: linear-gradient(180deg, #1a3a7c 0%, #0d1f50 100%); }
+
+    /* === PLAYER CARD === */
+    .player-card-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+      margin-bottom: 20px;
+    }
+
+    .player-card {
+      width: var(--card);
+      height: var(--card);
+      border: 3px dotted var(--gold);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .player-card .player-illustration {
+      width: 90%;
+      height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* === NAME BAR === */
+    .name-bar {
+      width: min(80vw, 360px);
+      border: 2px dashed var(--gold);
+      border-radius: 6px;
+      background: linear-gradient(180deg, #f5e6b8 0%, #e8d49a 100%);
+      padding: min(2.5vw, 12px) min(4vw, 16px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      margin-bottom: 30px;
+    }
+
+    .player-name {
+      font-size: clamp(11px, 3.5vw, 15px);
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #333;
+      text-transform: uppercase;
+    }
+
+    .skip-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      color: #666;
+      font-size: clamp(9px, 2.5vw, 11px);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .skip-btn:hover { color: #333; }
+    .skip-btn svg { width: clamp(14px, 4vw, 18px); height: clamp(14px, 4vw, 18px); }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+      <img src="header/header-left.png" alt="" class="header-img header-left" />
+      <img src="header/header-center.png" alt="FIFA World Cup 2026" class="header-img header-center" />
+      <img src="header/header-right.png" alt="" class="header-img header-right" />
+    </header>
+
+    <!-- ===== GAME CONTENT ===== -->
+    <main class="game-content">
+
+      <!-- Hints Grid -->
+      <div class="hints-grid">
+
+        <!-- Row 1 — Pink -->
+        <div class="hint-row row-pink">
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner hint-green-bg">
+              <div class="player-info">
+                <img src="players/HARVEY-CARLOS.png" alt="Carlos Harvey" />
+                <span class="player-lastname">Harvey</span>
+                <span class="player-firstname">Carlos</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner" style="background: #f5f5f5;">
+              <div class="player-info">
+                <img src="players/MARTINEZ-CHRISTIAN.png" alt="Christian Martinez" />
+                <span class="player-lastname">Martinez</span>
+                <span class="player-firstname">Christian</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner" style="background: #fafafa;"></div>
+          </div>
+        </div>
+
+        <!-- Row 2 — Blue -->
+        <div class="hint-row row-blue">
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner hint-red-bg">
+              <div class="player-info">
+                <img src="players/CARRASQUILLA-ADALBERTO .png" alt="Adalberto Carrasquilla" />
+                <span class="player-lastname">Carrasquilla</span>
+                <span class="player-firstname">Adalberto</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner hint-dark-bg">
+              <div class="player-info">
+                <img src="players/MURILLO-MICHAEL.png" alt="Michael Murillo" />
+                <span class="player-lastname">Murillo</span>
+                <span class="player-firstname">Michael</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner hint-blue-bg">
+              <div class="player-info">
+                <img src="players/CORDOBA-JOSE.png" alt="Jose Cordoba" />
+                <span class="player-lastname">Cordoba</span>
+                <span class="player-firstname">Jose</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3 — Green -->
+        <div class="hint-row row-green">
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner hint-navy-bg">
+              <div class="player-info">
+                <img src="players/BARCENAS-YOEL.png" alt="Yoel Barcenas" />
+                <span class="player-lastname">Barcenas</span>
+                <span class="player-firstname">Yoel</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner hint-gold-bg">
+              <div class="player-info">
+                <img src="players/ANDRADE-ANDRES.png" alt=" Andres Andrade" />
+                <span class="player-lastname">Andrade</span>
+                <span class="player-firstname">Andres</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hint-cell">
+            <div class="hint-border"></div>
+            <div class="hint-inner hint-royal-bg">
+              <div class="player-info">
+                <img src="players/RODRIGUEZ-JOSE.png" alt="Jose Rodriguez" />
+                <span class="player-lastname">Rodriguez</span>
+                <span class="player-firstname">Jose</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Player Card -->
+      <div class="player-card-area">
+        <div class="player-card">
+          <div class="player-illustration">
+            <img src="players/YANIS-CESAR.png" alt="Cesar Yanis" style="width: 100%; height: 100%; object-fit: contain;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Name Bar -->
+      <div class="name-bar">
+        <span class="player-name">Cesar Yanis</span>
+        <button class="skip-btn">
+          Skip
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8l4 4-4 4"/>
+            <path d="M8 12h8"/>
+          </svg>
+        </button>
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
